@@ -69,7 +69,7 @@ Objects that are serialized for transfer among Ray processes go through three st
 
 2. Any list, dictionary, or tuple whose elements can be serialized by Ray.
 
-**2. ``__dict__`` serialization**: If a direct usage of PyArrow is not possible, Ray will recursively extract the object’s ``__dict__`` and serialize that using pyarrow. This behavior is not correct in all cases.
+**2.** ``__dict__`` **serialization**: If a direct usage of PyArrow is not possible, Ray will recursively extract the object’s ``__dict__`` and serialize that using pyarrow. This behavior is not correct in all cases.
 
 **3. Cloudpickle**:  Ray falls back to ``cloudpickle`` as a final attempt for serialization. This may be slow.
 
