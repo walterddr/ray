@@ -12,7 +12,7 @@ from ray.rllib.evaluation.postprocessing import compute_advantages, \
 from ray.rllib.policy.tf_policy_template import build_tf_policy
 from ray.rllib.policy.tf_policy import LearningRateSchedule
 from ray.rllib.utils.tf_ops import make_tf_callable
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 

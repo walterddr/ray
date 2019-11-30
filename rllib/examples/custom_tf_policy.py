@@ -9,7 +9,7 @@ from ray import tune
 from ray.rllib.agents.trainer_template import build_trainer
 from ray.rllib.evaluation.postprocessing import discount
 from ray.rllib.policy.tf_policy_template import build_tf_policy
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 

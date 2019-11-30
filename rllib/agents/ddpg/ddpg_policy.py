@@ -15,7 +15,7 @@ from ray.rllib.utils.annotations import override
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.policy.policy import Policy
 from ray.rllib.policy.tf_policy import TFPolicy
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 from ray.rllib.utils.tf_ops import huber_loss, minimize_and_clip, scope_vars
 
 tf = try_import_tf()

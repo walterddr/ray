@@ -7,7 +7,7 @@ import numpy as np
 from ray.rllib.models.action_dist import ActionDistribution
 from ray.rllib.policy.policy import TupleActions
 from ray.rllib.utils.annotations import override, DeveloperAPI
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 

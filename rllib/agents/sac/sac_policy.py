@@ -16,7 +16,7 @@ from ray.rllib.policy.tf_policy import TFPolicy
 from ray.rllib.policy.tf_policy_template import build_tf_policy
 from ray.rllib.models import ModelCatalog
 from ray.rllib.utils.error import UnsupportedSpaceException
-from ray.rllib.utils import try_import_tf, try_import_tfp
+from ray.utils import try_import_tf, try_import_tfp
 from ray.rllib.utils.annotations import override
 from ray.rllib.utils.tf_ops import minimize_and_clip, make_tf_callable
 

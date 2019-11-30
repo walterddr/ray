@@ -12,7 +12,7 @@ from ray.rllib.models import ModelCatalog
 from ray.rllib.models.tf.misc import normc_initializer
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
 from ray.rllib.agents.dqn.distributional_q_model import DistributionalQModel
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 from ray.rllib.models.tf.visionnet_v2 import VisionNetwork as MyVisionNetwork
 
 tf = try_import_tf()
