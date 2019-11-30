@@ -17,7 +17,7 @@ from ray.rllib.policy.tf_policy import ACTION_PROB, ACTION_LOGP
 from ray.rllib.utils import add_mixins
 from ray.rllib.utils.annotations import override
 from ray.rllib.utils.debug import log_once
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 logger = logging.getLogger(__name__)

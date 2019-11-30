@@ -6,7 +6,7 @@ from __future__ import division
 from __future__ import print_function
 
 import numpy as np
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 

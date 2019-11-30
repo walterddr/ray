@@ -32,7 +32,7 @@ from ray.rllib.utils.debug import disable_log_once_globally, log_once, \
     summarize, enable_periodic_logging
 from ray.rllib.utils.filter import get_filter
 from ray.rllib.utils.tf_run_builder import TFRunBuilder
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 logger = logging.getLogger(__name__)

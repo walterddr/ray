@@ -17,7 +17,7 @@ current algorithms: https://github.com/ray-project/ray/issues/2992
 import numpy as np
 
 from ray.rllib.utils.annotations import DeveloperAPI
-from ray.rllib.utils import try_import_tf
+from ray.utils import try_import_tf
 
 tf = try_import_tf()
 
