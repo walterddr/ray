@@ -3,10 +3,12 @@ from __future__ import division
 from __future__ import print_function
 
 from numpy.testing import assert_almost_equal
-import tensorflow.compat.v1 as tf
+from ray.utils import try_import_tf
 
 import ray
 import ray.experimental.tf_utils
+
+tf = try_import_tf()
 
 
 def make_linear_network(w_name=None, b_name=None):
