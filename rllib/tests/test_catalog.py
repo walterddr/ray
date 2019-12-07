@@ -12,7 +12,7 @@ from ray.rllib.models.preprocessors import (NoPreprocessor, OneHotPreprocessor,
                                             Preprocessor)
 from ray.rllib.models.tf.fcnet_v1 import FullyConnectedNetwork
 from ray.rllib.models.tf.visionnet_v1 import VisionNetwork
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

@@ -18,7 +18,7 @@ from ray.rllib.agents.pg.pg import PGTrainer
 from ray.rllib.agents.pg.pg_policy import PGTFPolicy
 from ray.rllib.policy.policy import Policy
 from ray.rllib.env.multi_agent_env import MultiAgentEnv
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

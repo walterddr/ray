@@ -8,7 +8,7 @@ from numpy.testing import assert_allclose
 
 from ray.rllib.models.tf.tf_action_dist import Categorical
 from ray.rllib.agents.ppo.utils import flatten, concatenate
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

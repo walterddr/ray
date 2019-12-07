@@ -12,7 +12,7 @@ from ray.rllib.models import Model, ModelCatalog
 from ray.rllib.models.tf.fcnet_v1 import FullyConnectedNetwork
 from ray.rllib.policy.sample_batch import SampleBatch
 from ray.rllib.policy.tf_policy_template import build_tf_policy
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

@@ -21,7 +21,7 @@ from ray import tune
 from ray.rllib.models import Model, ModelCatalog
 from ray.rllib.tests.test_multi_agent_env import MultiCartpole
 from ray.tune.registry import register_env
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

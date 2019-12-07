@@ -8,7 +8,7 @@ from ray.rllib.models.model import Model
 from ray.rllib.models.tf.misc import linear, normc_initializer
 from ray.rllib.policy.rnn_sequencing import add_time_dimension
 from ray.rllib.utils.annotations import override
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

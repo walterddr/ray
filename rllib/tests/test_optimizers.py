@@ -16,7 +16,7 @@ from ray.rllib.evaluation.worker_set import WorkerSet
 from ray.rllib.optimizers import AsyncGradientsOptimizer, AsyncSamplesOptimizer
 from ray.rllib.optimizers.aso_tree_aggregator import TreeAggregator
 from ray.rllib.tests.mock_worker import _MockWorker
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 
@@ -183,7 +183,9 @@ class AsyncSamplesOptimizerTest(unittest.TestCase):
         print(stats)
         self.assertLess(stats["num_steps_sampled"], 5000)
         replay_ratio = stats["num_steps_replayed"] / stats["num_steps_sampled"]
+        train_ratio = stats["num_steps_sampled"] / stats["num_steps_trained"]
         self.assertGreater(replay_ratio, 0.7)
+        self.assertLess(train_ratio, 0.4)
 
     def testMultiTierAggregationBadConf(self):
         local, remotes = self._make_envs()

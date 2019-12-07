@@ -5,7 +5,7 @@ from __future__ import print_function
 from ray.rllib.models.model import Model
 from ray.rllib.models.tf.misc import get_activation_fn, flatten
 from ray.rllib.utils.annotations import override
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

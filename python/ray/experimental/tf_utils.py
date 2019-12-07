@@ -5,22 +5,10 @@ from __future__ import print_function
 from collections import deque, OrderedDict
 import numpy as np
 
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import unflatten
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
-
-
-def unflatten(vector, shapes):
-    i = 0
-    arrays = []
-    for shape in shapes:
-        size = np.prod(shape, dtype=np.int)
-        array = vector[i:(i + size)].reshape(shape)
-        arrays.append(array)
-        i += size
-    assert len(vector) == i, "Passed weight does not have the correct shape."
-    return arrays
-
 
 class TensorFlowVariables(object):
     """A class used to set and get weights for Tensorflow networks.

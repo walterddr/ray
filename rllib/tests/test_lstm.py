@@ -15,7 +15,7 @@ from ray.rllib.models import ModelCatalog
 from ray.rllib.models.tf.misc import linear, normc_initializer
 from ray.rllib.models.model import Model
 from ray.tune.registry import register_env
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

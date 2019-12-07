@@ -12,7 +12,7 @@ from ray.rllib.utils.annotations import override
 from ray.rllib.policy.policy import Policy
 from ray.rllib.policy.tf_policy import TFPolicy
 from ray.rllib.utils.explained_variance import explained_variance
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 from ray.rllib.utils.tf_ops import scope_vars
 
 tf = try_import_tf()

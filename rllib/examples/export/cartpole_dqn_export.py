@@ -8,7 +8,7 @@ import os
 import ray
 
 from ray.rllib.agents.registry import get_agent_class
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 

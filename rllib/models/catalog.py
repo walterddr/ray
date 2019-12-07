@@ -25,7 +25,7 @@ from ray.rllib.models.tf.modelv1_compat import make_v1_wrapper
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
 from ray.rllib.models.tf.visionnet_v1 import VisionNetwork
 from ray.rllib.models.modelv2 import ModelV2
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 from ray.rllib.utils.annotations import DeveloperAPI, PublicAPI
 from ray.rllib.utils.error import UnsupportedSpaceException
 

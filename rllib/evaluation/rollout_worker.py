@@ -32,7 +32,7 @@ from ray.rllib.utils.debug import disable_log_once_globally, log_once, \
     summarize, enable_periodic_logging
 from ray.rllib.utils.filter import get_filter
 from ray.rllib.utils.tf_run_builder import TFRunBuilder
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 
 tf = try_import_tf()
 logger = logging.getLogger(__name__)
@@ -327,20 +327,14 @@ class RolloutWorker(EvaluatorInterface):
                 logger.info("Could not seed torch")
         if _has_tensorflow_graph(policy_dict) and not (tf and
                                                        tf.executing_eagerly()):
+            if (ray.is_initialized()
+                    and ray.worker._mode() != ray.worker.LOCAL_MODE
+                    and not ray.get_gpu_ids()):
+                logger.debug("Creating policy evaluation worker {}".format(
+                    worker_index) +
+                             " on CPU (please ignore any CUDA init errors)")
             if not tf:
                 raise ImportError("Could not import tensorflow")
-            if (ray.is_initialized()
-                    and ray.worker._mode() != ray.worker.LOCAL_MODE):
-                if not ray.get_gpu_ids():
-                    logger.debug(
-                        "Creating policy evaluation worker {}".format(
-                            worker_index) +
-                        " on CPU (please ignore any CUDA init errors)")
-                elif not tf.test.is_gpu_available():
-                    raise RuntimeError(
-                        "GPUs were assigned to this worker by Ray, but "
-                        "TensorFlow reports GPU acceleration is disabled. "
-                        "This could be due to a bad CUDA or TF installation.")
             with tf.Graph().as_default():
                 if tf_session_creator:
                     self.tf_sess = tf_session_creator()

@@ -5,12 +5,13 @@ from __future__ import print_function
 import logging
 from types import FunctionType
 
+from ray.tf_utils import try_import_tf
 from ray.rllib.utils.annotations import DeveloperAPI
 from ray.rllib.evaluation.rollout_worker import RolloutWorker, \
     _validate_multiagent_config
 from ray.rllib.offline import NoopOutput, JsonReader, MixedInput, JsonWriter, \
     ShuffledInput
-from ray.rllib.utils import merge_dicts, try_import_tf
+from ray.rllib.utils import merge_dicts
 from ray.rllib.utils.memory import ray_get_and_free
 
 tf = try_import_tf()

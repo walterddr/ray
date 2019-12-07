@@ -5,7 +5,7 @@ from __future__ import print_function
 import numpy as np
 
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
-from ray.rllib.utils import try_import_tf, try_import_tfp
+from ray.tf_utils import try_import_tf, try_import_tfp
 
 tf = try_import_tf()
 tfp = try_import_tfp()

@@ -21,7 +21,7 @@ from gym.spaces import Discrete, Box
 
 import ray
 from ray import tune
-from ray.rllib.utils import try_import_tf
+from ray.tf_utils import try_import_tf
 from ray.tune import grid_search
 
 tf = try_import_tf()
