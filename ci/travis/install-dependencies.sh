@@ -33,7 +33,7 @@ fi
 pip install --upgrade pip # setuptools cloudpickle urllib3
 
 # If we're in a CI environment, do some configuration
-if [ "${TRAVIS-}" = true ] || [ -n "${GITHUB_WORKFLOW-}" ]; then
+if [ "${TRAVIS-}" = true ] || [ "${AZURE_PIPELINE-}" = true ] || [ -n "${GITHUB_WORKFLOW-}" ]; then
   pip config --user set global.disable-pip-version-check True
   pip config --user set global.no-color True
   pip config --user set global.progress_bar off
@@ -48,6 +48,10 @@ if [[ "$PYTHON" == "3.6" ]] && [[ "$platform" == "linux" ]]; then
   bash miniconda.sh -b -p $HOME/miniconda
   export PATH="$HOME/miniconda/bin:$PATH"
   "${ROOT_DIR}/install-strace.sh" || true
+  # Install NVM
+  pushd "$HOME/"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash
+  popd
   pip install scipy tensorflow==$tf_version \
     cython==0.29.0 gym \
     opencv-python-headless pyyaml pandas==0.24.2 requests \

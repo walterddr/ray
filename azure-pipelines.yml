@@ -1,0 +1,85 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - master
+
+variables:
+  AZURE_PIPELINE: true
+
+jobs:
+  - job: compile
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      
+      - script: |
+          eval `python $TRAVIS_BUILD_DIR/ci/travis/determine_tests_to_run.py`
+          if [ $RAY_CI_SERVE_AFFECTED != "1" ] && [ $RAY_CI_TUNE_AFFECTED != "1" ] && [ $RAY_CI_RLLIB_AFFECTED != "1" ] && [ $RAY_CI_PYTHON_AFFECTED != "1" ]; then exit; fi
+          ./ci/travis/install-bazel.sh
+          ./ci/travis/install-dependencies.sh
+        displayName: 'install'
+        env:
+          PYTHON: 3.6 
+          PYTHONWARNINGS: ignore
+
+      - script: |
+          ./ci/travis/install-ray.sh
+          ./ci/travis/install-cython-examples.sh
+        displayName: 'build ray'
+        env:
+          PYTHON: 3.6 
+          PYTHONWARNINGS: ignore
+
+  - job: test
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      
+      - script: |
+          echo "------------------- Env Setup & Install -------------------"
+          eval `python $TRAVIS_BUILD_DIR/ci/travis/determine_tests_to_run.py`
+          if [ $RAY_CI_SERVE_AFFECTED != "1" ] && [ $RAY_CI_TUNE_AFFECTED != "1" ] && [ $RAY_CI_RLLIB_AFFECTED != "1" ] && [ $RAY_CI_PYTHON_AFFECTED != "1" ]; then exit; fi
+          ./ci/travis/install-bazel.sh
+          ./ci/travis/install-dependencies.sh
+        displayName: 'install'
+        env:
+          PYTHON: 3.6 
+          PYTHONWARNINGS: ignore
+
+      - script: |
+          echo "------------------- Bazel Build All -------------------"
+          bazel build //:all
+          echo "------------------- Python Build All -------------------"
+          ./ci/travis/install-ray.sh
+          ./ci/travis/install-cython-examples.sh
+        displayName: 'build ray'
+        env:
+          PYTHON: 3.6 
+          PYTHONWARNINGS: ignore
+      - script: |
+          echo "------------------- raylet integration tests -------------------"
+          bash src/ray/test/run_core_worker_tests.sh
+          bash src/ray/test/run_object_manager_tests.sh
+          echo "------------------- cc bazel tests (w/o RLlib) -------------------"
+          bazel test --build_tests_only --show_progress_rate_limit=100 --test_output=errors -- //:all -rllib/...
+          echo "------------------- ray serve tests -------------------"
+          if [ $RAY_CI_SERVE_AFFECTED == "1" ]; then ./ci/keep_alive bazel test --spawn_strategy=local --flaky_test_attempts=3 --nocache_test_results --test_verbose_timeout_warnings --progress_report_interval=100 --show_progress_rate_limit=100 --show_timestamps --test_output=errors --test_tag_filters=-jenkins_only python/ray/serve/...; fi 
+          echo "------------------- ray operator tests -------------------"
+          cd ./deploy/ray-operator/
+          go build
+          go test ./...
+          cd ../..
+          echo "------------------- random python tests TODO(ekl): these should be moved to bazel -------------------"
+          if [ $RAY_CI_PYTHON_AFFECTED == "1" ]; then python -m pytest -v --durations=5 --timeout=300 python/ray/experimental/test/async_test.py; fi
+          echo "------------------- bazel python tests. This should be run last to keep its logs at the end of travis logs. -------------------"
+          if [ $RAY_CI_PYTHON_AFFECTED == "1" ]; then ./ci/keep_alive bazel test --spawn_strategy=local --flaky_test_attempts=3 --nocache_test_results --test_verbose_timeout_warnings --progress_report_interval=100 --show_progress_rate_limit=100 --show_timestamps --test_output=errors --test_tag_filters=-jenkins_only python/ray/tests/...; fi
+          if [ $RAY_CI_TUNE_AFFECTED == "1" ]; then ./ci/keep_alive bazel test --spawn_strategy=local --flaky_test_attempts=3 --nocache_test_results --test_verbose_timeout_warnings --progress_report_interval=100 --show_progress_rate_limit=100 --show_timestamps --test_output=errors --test_tag_filters=-jenkins_only python/ray/tune/...; fi
+          echo "------------------- NO MORE TESTS BELOW, keep them above. -------------------"
+        displayName: 'test base'
+        env:
+          PYTHON: 3.6 
+          PYTHONWARNINGS: ignore
+        

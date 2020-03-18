@@ -38,7 +38,7 @@ else
   rm -f "${target}"
 fi
 
-if [ "${TRAVIS-}" = true ]; then
+if [ "${TRAVIS-}" = true ] || [ "${AZURE_PIPELINE-}" = true ]; then
   # Use bazel disk cache if this script is running in Travis.
   mkdir -p "${HOME}/ray-bazel-cache"
   cat <<EOF >> "${HOME}/.bazelrc"
@@ -51,7 +51,7 @@ if [ -n "${GITHUB_WORKFLOW-}" ]; then
 --output_base=".bazel-out"  # On GitHub Actions, staying on the same volume seems to be faster
 EOF
 fi
-if [ "${TRAVIS-}" = true ] || [ -n "${GITHUB_WORKFLOW-}" ]; then
+if [ "${TRAVIS-}" = true ] || [ "${AZURE_PIPELINE-}" = true ] || [ -n "${GITHUB_WORKFLOW-}" ]; then
   cat <<EOF >> "${HOME}/.bazelrc"
 # CI output doesn't scroll, so don't use curses
 build --curses=no
