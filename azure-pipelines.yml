@@ -14,6 +14,10 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+      - task: CacheBeta@1
+        inputs:
+          key: 'BUILD_CACHE'
+          path: './'
       
       - script: |
           eval `python $TRAVIS_BUILD_DIR/ci/travis/determine_tests_to_run.py`
